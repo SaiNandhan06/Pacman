@@ -18,12 +18,11 @@ class Ghost {
     }
 
     changeRandomDirection(){
-        this.randomTargetIndex += parseInt(Math.random() * 4
-    );
+        this.randomTargetIndex += parseInt(Math.random() * 4);
         this.randomTargetIndex = this.randomTargetIndex % 4;
     }
     moveProcess(){
-        if(this.isInRanegOfPacman()){
+        if(this.isInRangeOfPacman()){
             this.target = pacman;
         }else{
             this.target = randomTargetsForGhosts[this.randomTargetIndex];
@@ -91,7 +90,7 @@ class Ghost {
         return false; 
     }
 
-    isInRanegOfPacman(){
+    isInRangeOfPacman(){
         let xDistance = Math.abs(pacman.getMapX() - this.getMapX());
         let yDistance = Math.abs(pacman.getMapY() - this.getMapY());
         if(Math.sqrt(xDistance * xDistance + yDistance * yDistance) <= this.range){
