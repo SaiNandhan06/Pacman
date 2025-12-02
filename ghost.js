@@ -16,21 +16,23 @@ class Ghost {
             this.changeRandomDirection();
         }, 10000);
     }
+
     changeRandomDirection(){
         this.randomTargetIndex += 1;
         this.randomTargetIndex = this.randomTargetIndex % 4;
     }
     moveProcess(){
         if(this.isInRanegOfPacman()){
-            target = pacman;
+            this.target = pacman;
         }else{
-            this.target = randomTargetsForGhosts[this.randomTargetsForGhostsIndex];
+            this.target = randomTargetsForGhosts[this.randomTargetIndex];
         }
         this.changeDirectionIfPossible();
         this.moveForwards();
         if(this.checkCollision()){
             this.moveBackwards();
         }
+
     }
 
     moveBackwards(){
@@ -78,6 +80,14 @@ class Ghost {
     }
 
     checkGhostCollision(){
+        for(let i=0;i<ghosts.length;i++){
+            let ghost = ghosts[i];
+            if(ghost.getMapX() === this.getMapX() &&
+               ghost.getMapY() === this.getMapY()){
+                    return true;
+               }
+        }
+        return false; 
     }
 
     isInRanegOfPacman(){
@@ -100,7 +110,7 @@ class Ghost {
         if(typeof this.direction === "undefined"){
             this.direction = tempDirection;
             return;
-        }
+        }   
 
         this.moveForwards();
         if(this.checkCollision()){
