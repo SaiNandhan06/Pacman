@@ -12,4 +12,13 @@ Arcade-style Pacman remake rendered on an HTML5 canvas. The maze, pellets, Pacma
 2. Open `index.html` in any modern browser (no build step required).
 3. Use the arrow keys or WASD to survive as long as you can.
 
+---
+
+## 🚀 Live Demo
+
+You can view the live website here:  
+👉 **[Live Demo](https://pacmangame-sainandhan.vercel.app/)**
+
+---
+
 Enjoy the nostalgia!
