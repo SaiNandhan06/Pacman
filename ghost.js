@@ -1,5 +1,3 @@
-
-
 class Ghost {
     constructor(x,y,width,height,speed,imageX,imageY,imageWidth,imageHeight,range){
         this.x = x;
@@ -21,7 +19,6 @@ class Ghost {
     changeRandomDirection(){
         this.randomTargetIndex += 1;
         this.randomTargetIndex = this.randomTargetIndex % 4;
-
     }
     moveProcess(){
         if(this.isInRanegOfPacman()){
@@ -81,8 +78,6 @@ class Ghost {
     }
 
     checkGhostCollision(){
-
-
     }
 
     isInRanegOfPacman(){
@@ -102,7 +97,11 @@ class Ghost {
             parseInt(this.target.x/oneBlockSize),
             parseInt(this.target.y/oneBlockSize)
         );
-        
+        if(typeof this.direction === "undefined"){
+            this.direction = tempDirection;
+            return;
+        }
+
         this.moveForwards();
         if(this.checkCollision()){
             this.moveBackwards();
@@ -118,8 +117,7 @@ class Ghost {
             mp[i] = map[i].slice();
         }
         let queue = [{
-            x:this
-            .getMapX(),
+            x:this.getMapX(),
             y:this.getMapY(),
             moves: [],
         }];
@@ -130,39 +128,48 @@ class Ghost {
             }else{
                 mp[poped.y][poped.x] =1;
                 let neighbourList = this.addNeighbours(poped,mp);
+                for(let i=0;i<neighbourList.length;i++){
+                    queue.push(neighbourList[i]);   
+                }
             }
         }
+        return DIRECTION_UP;
     }
 
     addNeighbours(poped,mp){
         let queue = []
         let numOfRows = mp.length
+        let numOfColumns = mp[0].length;
 
         if(poped.x - 1 >= 0 && poped.x - 1 < numOfRows && mp[poped.y][poped.x - 1] !== 1){
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_LEFT);
-            queue.push({x:poped.x - 1,y:poped.y,moves:tempMoves});
+            queue.push({x:poped.x - 1, y:poped.y ,moves:tempMoves});
         }
+
         if(poped.x + 1 >= 0 && poped.x + 1 < numOfRows && mp[poped.y][poped.x + 1] !== 1){
             let tempMoves = poped.moves.slice();
             tempMoves.push(DIRECTION_RIGHT);
-            queue.push({x:poped.x + 1,y:poped.y,moves:tempMoves});
+            queue.push({x:poped.x + 1, y:poped.y ,moves:tempMoves});
         }
-        if(poped.x - 1 >= 0 && poped.x - 1 < numOfRows && mp[poped.y][poped.x - 1] !== 1){
+
+        if(poped.y - 1 >= 0 && poped.y - 1 < numOfRows && mp[poped.y -1][poped.x] !== 1){
             let tempMoves = poped.moves.slice();
-            tempMoves.push(DIRECTION_LEFT);
-            queue.push({x:poped.x - 1,y:poped.y,moves:tempMoves});
+            tempMoves.push(DIRECTION_UP);
+            queue.push({x:poped.x, y:poped.y - 1 ,moves:tempMoves});
         }
-        if(poped.x - 1 >= 0 && poped.x - 1 < numOfRows && mp[poped.y][poped.x - 1] !== 1){
+        
+        if(poped.y + 1 >= 0 && poped.y + 1 < numOfRows && mp[poped.y+1][poped.x] !== 1){
             let tempMoves = poped.moves.slice();
-            tempMoves.push(DIRECTION_LEFT);
-            queue.push({x:poped.x - 1,y:poped.y,moves:tempMoves});
+            tempMoves.push(DIRECTION_BOTTOM);
+            queue.push({x:poped.x, y:poped.y + 1,moves:tempMoves});
         }
+        return queue;
     }
 
     changeAnimation(){
-        this.currentFrame = (this.currentFrame === this.frameCount) ? 1 : this.currentFrame +1;
 
+        this.currentFrame = (this.currentFrame === this.frameCount) ? 1 : this.currentFrame +1;
     }
      
     draw(){
@@ -179,7 +186,6 @@ class Ghost {
 
         canvasContext.restore();
     }
-
 
     getMapX(){
         return parseInt(this.x/oneBlockSize);                    
