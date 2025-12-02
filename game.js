@@ -17,11 +17,14 @@ let wallInnerColor = "black";
 let foodColor = "#FEB897";
 let score =0;
 let ghosts = [];
+let ghostCount =4;
 
 const DIRECTION_RIGHT = 4;
 const DIRECTION_UP = 3;
 const DIRECTION_LEFT = 2;
 const DIRECTION_BOTTOM = 1;
+
+
 
 let ghostLocations = [
     { x: 0, y: 0 },
@@ -54,6 +57,13 @@ let map = [
     [1, 2, 1, 1, 1 ,1, 1, 1, 1, 2 ,1, 2, 1, 1, 1 ,1, 1, 1, 1, 2 ,1],
     [1, 2, 2, 2, 2 ,2, 2, 2, 2, 2 ,2, 2, 2, 2, 2 ,2, 2, 2, 2, 2 ,1],
     [1, 1, 1, 1, 1 ,1, 1, 1, 1, 1 ,1, 1, 1, 1, 1 ,1, 1, 1, 1, 1 ,1],
+];
+
+let randomTargetsForGhosts = [
+    { x:1* oneBlockSize, y:1* oneBlockSize },
+    { x:1* oneBlockSize , y:(map.length -2)* oneBlockSize },
+    { x:(map[0].length -2)* oneBlockSize, y: oneBlockSize  },
+    { x:(map[0].length -2)* oneBlockSize , y: (map.length -2)* oneBlockSize }
 ];
 
 let gameLoop = () =>{
@@ -143,10 +153,10 @@ let createNewPacman = () => {
 
 let createGhosts = () => {
     ghosts = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < ghostCount; i++) {
         let newGhost = new Ghost(
-            9 * oneBlockSize + (i % 2 == 0 ? 0 : 1) * oneBlockSize,
-            10 * oneBlockSize + (i % 2 == 0 ? 0 : 1) * oneBlockSize,
+            9 * oneBlockSize + (i % 2 === 0 ? 0 : 1) * oneBlockSize,
+            10 * oneBlockSize + (i % 2 === 0 ? 0 : 1) * oneBlockSize,
             oneBlockSize,
             oneBlockSize,
             pacman.speed / 2,
