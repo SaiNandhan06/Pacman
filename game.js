@@ -19,6 +19,7 @@ let score =0;
 let ghosts = [];
 let ghostCount =4;
 let lives = 3;
+let foodCount = 0;
 
 const DIRECTION_RIGHT = 4;
 const DIRECTION_UP = 3;
@@ -66,8 +67,8 @@ let randomTargetsForGhosts = [
 ];
 
 let gameLoop = () =>{
-    update();
     draw();
+    update();
 };
 
 let update = () => {
@@ -79,6 +80,10 @@ let update = () => {
 
     if(pacman.checkGhostCollision()){
         restartGame();
+    }
+    if(score <= foodCount){
+        drawWin();
+        clearInterval(gameInterval);
     }
 };
 
@@ -99,7 +104,14 @@ let gameOver = () => {
 let drawGameOver = () => {  
     canvasContext.font = "20px Emulogic";
     canvasContext.fillStyle = "white";
-    canvasContext.fillText("Game Over!!!",200,200);
+    canvasContext.fillText("Game Over!!!",150,200);
+}
+
+let drawWin = () => {  
+    canvasContext.font = "20px Emulogic";
+    canvasContext.fillStyle = "white";
+    canvasContext.fillText("Winner Winner!!!",0,200);
+    canvasContext.fillText("Chicken Dinner!!!",0,220);
 }
 
 let drawLifes = () => {
